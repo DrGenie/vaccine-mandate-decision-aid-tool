@@ -1,0 +1,287 @@
+{
+  "meta": {
+    "source": "User-provided MXL and LC estimates (means in preference space) by country and outbreak frame",
+    "coding": "Dummy coding with stated references (scope2 vs scope1; exemption2/3 vs exemption1; coverage2/3 vs coverage1).",
+    "note": "Predicted support is computed for a single configured mandate alternative vs opt-out using ASC_policy and ASC_optout."
+  },
+  "mxl": {
+    "AUS": {
+      "mild": {
+        "beta": {
+          "ASC_policy": 0.464,
+          "ASC_optout": -0.572,
+          "scope2": -0.319,
+          "exemption2": -0.157,
+          "exemption3": -0.267,
+          "coverage2": 0.171,
+          "coverage3": 0.158,
+          "lives": 0.072
+        }
+      },
+      "severe": {
+        "beta": {
+          "ASC_policy": 0.535,
+          "ASC_optout": -0.694,
+          "scope2": 0.19,
+          "exemption2": -0.181,
+          "exemption3": -0.305,
+          "coverage2": 0.371,
+          "coverage3": 0.398,
+          "lives": 0.079
+        }
+      }
+    },
+    "ITA": {
+      "mild": {
+        "beta": {
+          "ASC_policy": 0.625,
+          "ASC_optout": -0.238,
+          "scope2": -0.276,
+          "exemption2": -0.176,
+          "exemption3": -0.289,
+          "coverage2": 0.185,
+          "coverage3": 0.148,
+          "lives": 0.039
+        }
+      },
+      "severe": {
+        "beta": {
+          "ASC_policy": 0.799,
+          "ASC_optout": -0.463,
+          "scope2": 0.174,
+          "exemption2": -0.178,
+          "exemption3": -0.207,
+          "coverage2": 0.305,
+          "coverage3": 0.515,
+          "lives": 0.045
+        }
+      }
+    },
+    "FRA": {
+      "mild": {
+        "beta": {
+          "ASC_policy": 0.899,
+          "ASC_optout": 0.307,
+          "scope2": -0.16,
+          "exemption2": -0.121,
+          "exemption3": -0.124,
+          "coverage2": 0.232,
+          "coverage3": 0.264,
+          "lives": 0.049
+        }
+      },
+      "severe": {
+        "beta": {
+          "ASC_policy": 0.884,
+          "ASC_optout": 0.083,
+          "scope2": -0.019,
+          "exemption2": -0.192,
+          "exemption3": -0.247,
+          "coverage2": 0.267,
+          "coverage3": 0.398,
+          "lives": 0.052
+        }
+      }
+    }
+  },
+  "lc": {
+    "AUS": {
+      "mild": {
+        "classes": [
+          {
+            "name": "resisters",
+            "share": 0.2532,
+            "beta": {
+              "ASC_policy": 0.11,
+              "ASC_optout": 2.96,
+              "scope2": -0.26,
+              "exemption2": 0.11,
+              "exemption3": 0.15,
+              "coverage2": -0.09,
+              "coverage3": -0.26,
+              "lives": 0.02
+            }
+          },
+          {
+            "name": "supporters",
+            "share": 0.7468,
+            "beta": {
+              "ASC_policy": 0.28,
+              "ASC_optout": -1.01,
+              "scope2": -0.19,
+              "exemption2": -0.18,
+              "exemption3": -0.21,
+              "coverage2": 0.1,
+              "coverage3": 0.17,
+              "lives": 0.04
+            }
+          }
+        ]
+      },
+      "severe": {
+        "classes": [
+          {
+            "name": "supporters",
+            "share": 0.7776,
+            "beta": {
+              "ASC_policy": 0.27,
+              "ASC_optout": -0.82,
+              "scope2": 0.12,
+              "exemption2": -0.15,
+              "exemption3": -0.23,
+              "coverage2": 0.16,
+              "coverage3": 0.24,
+              "lives": 0.04
+            }
+          },
+          {
+            "name": "resisters",
+            "share": 0.2224,
+            "beta": {
+              "ASC_policy": 0.15,
+              "ASC_optout": 2.68,
+              "scope2": -0.0,
+              "exemption2": -0.09,
+              "exemption3": 0.06,
+              "coverage2": 0.09,
+              "coverage3": 0.05,
+              "lives": 0.01
+            }
+          }
+        ]
+      }
+    },
+    "ITA": {
+      "mild": {
+        "classes": [
+          {
+            "name": "resisters",
+            "share": 0.2995,
+            "beta": {
+              "ASC_policy": 0.1,
+              "ASC_optout": 2.7,
+              "scope2": -0.24,
+              "exemption2": -0.12,
+              "exemption3": 0.07,
+              "coverage2": -0.09,
+              "coverage3": -0.18,
+              "lives": 0.01
+            }
+          },
+          {
+            "name": "supporters",
+            "share": 0.7005,
+            "beta": {
+              "ASC_policy": 0.42,
+              "ASC_optout": -0.96,
+              "scope2": -0.18,
+              "exemption2": -0.14,
+              "exemption3": -0.24,
+              "coverage2": 0.13,
+              "coverage3": 0.18,
+              "lives": 0.03
+            }
+          }
+        ]
+      },
+      "severe": {
+        "classes": [
+          {
+            "name": "supporters",
+            "share": 0.7477,
+            "beta": {
+              "ASC_policy": 0.44,
+              "ASC_optout": -0.74,
+              "scope2": 0.17,
+              "exemption2": -0.12,
+              "exemption3": -0.23,
+              "coverage2": 0.2,
+              "coverage3": 0.36,
+              "lives": 0.03
+            }
+          },
+          {
+            "name": "resisters",
+            "share": 0.2523,
+            "beta": {
+              "ASC_policy": 0.34,
+              "ASC_optout": 2.6,
+              "scope2": -0.06,
+              "exemption2": -0.17,
+              "exemption3": 0.09,
+              "coverage2": -0.06,
+              "coverage3": -0.02,
+              "lives": 0.0
+            }
+          }
+        ]
+      }
+    },
+    "FRA": {
+      "mild": {
+        "classes": [
+          {
+            "name": "resisters",
+            "share": 0.2831,
+            "beta": {
+              "ASC_policy": 0.45,
+              "ASC_optout": 2.75,
+              "scope2": -0.18,
+              "exemption2": 0.07,
+              "exemption3": 0.18,
+              "coverage2": -0.01,
+              "coverage3": -0.02,
+              "lives": 0.01
+            }
+          },
+          {
+            "name": "supporters",
+            "share": 0.7169,
+            "beta": {
+              "ASC_policy": 0.56,
+              "ASC_optout": -0.68,
+              "scope2": -0.11,
+              "exemption2": -0.16,
+              "exemption3": -0.15,
+              "coverage2": 0.12,
+              "coverage3": 0.19,
+              "lives": 0.03
+            }
+          }
+        ]
+      },
+      "severe": {
+        "classes": [
+          {
+            "name": "resisters",
+            "share": 0.2496,
+            "beta": {
+              "ASC_policy": 0.41,
+              "ASC_optout": 2.4,
+              "scope2": -0.2,
+              "exemption2": -0.1,
+              "exemption3": -0.05,
+              "coverage2": 0.11,
+              "coverage3": 0.18,
+              "lives": 0.0
+            }
+          },
+          {
+            "name": "supporters",
+            "share": 0.7504,
+            "beta": {
+              "ASC_policy": 0.53,
+              "ASC_optout": -0.57,
+              "scope2": 0.06,
+              "exemption2": -0.12,
+              "exemption3": -0.18,
+              "coverage2": 0.15,
+              "coverage3": 0.27,
+              "lives": 0.04
+            }
+          }
+        ]
+      }
+    }
+  }
+}
