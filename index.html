@@ -1,0 +1,705 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Vaccine Mandate Decision Aid (AU · FR · IT)</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="who-header">
+    <div class="container header-inner">
+      <div class="brand">
+        <div class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 24 24" role="img" focusable="false">
+            <circle cx="12" cy="12" r="10"></circle>
+            <path d="M12 6v12M6 12h12"></path>
+          </svg>
+        </div>
+        <div class="brand-text">
+          <div class="brand-title">Vaccine Mandate Decision Aid</div>
+          <div class="brand-subtitle">Evidence-driven mandate design across Australia, France, and Italy</div>
+        </div>
+      </div>
+
+      <nav class="top-nav" aria-label="Primary">
+        <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="navMenu">Menu</button>
+        <div class="nav-menu" id="navMenu">
+          <a href="#configure" data-tab="configure" class="nav-link is-active">Configure</a>
+          <a href="#costs" data-tab="costs" class="nav-link">Costs</a>
+          <a href="#benefits" data-tab="benefits" class="nav-link">Benefits</a>
+          <a href="#results" data-tab="results" class="nav-link">Results</a>
+          <a href="#evidence" data-tab="evidence" class="nav-link">Evidence</a>
+          <a href="#export" data-tab="export" class="nav-link">Export</a>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main" class="container">
+    <section class="notice" role="note" aria-label="Disclaimer">
+      <div class="notice-title">How to use this tool</div>
+      <p class="notice-text">
+        This is a policy decision aid for comparing vaccine mandate configurations using your study’s discrete choice experiment (DCE) structure
+        (scope, exemptions, coverage threshold, and expected lives saved) and a structured cost inventory. It does <em>not</em> forecast cases.
+        The benefit and cost modules are transparent and require you to enter or upload local parameter values.
+      </p>
+    </section>
+
+    <section class="tabs" aria-label="Decision aid sections">
+      <!-- Configure -->
+      <article id="tab-configure" class="tab-panel is-active" data-tabpanel="configure">
+        <div class="panel-header">
+          <h1>Configure a mandate scenario</h1>
+          <p class="muted">Select country, outbreak framing, and mandate design features. Lives saved are expressed per 100,000 population.</p>
+        </div>
+
+        <div class="grid two">
+          <div class="card">
+            <div class="card-header">
+              <h2>Context</h2>
+            </div>
+            <div class="card-body">
+              <div class="field">
+                <label for="country">Country</label>
+                <select id="country">
+                  <option value="AUS">Australia</option>
+                  <option value="FRA">France</option>
+                  <option value="ITA">Italy</option>
+                </select>
+              </div>
+
+              <div class="field">
+                <label for="frame">Outbreak context</label>
+                <select id="frame">
+                  <option value="mild">Mild outbreak context</option>
+                  <option value="severe">Severe outbreak context</option>
+                </select>
+                <div class="help">Choose the frame used in your DCE modelling (if you estimated separate models).</div>
+              </div>
+
+              <div class="field">
+                <label for="population">Population covered</label>
+                <div class="input-row">
+                  <input id="population" type="number" min="0" step="1000" placeholder="e.g., 26,000,000" />
+                  <span class="unit">people</span>
+                </div>
+                <div class="help">Used to convert “lives saved per 100,000” into total lives saved.</div>
+              </div>
+
+              <div class="field">
+                <label for="horizonMonths">Time horizon</label>
+                <div class="input-row">
+                  <input id="horizonMonths" type="number" min="1" step="1" value="12" />
+                  <span class="unit">months</span>
+                </div>
+                <div class="help">Costs and benefits are scaled to this horizon (simple proportional scaling).</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-header">
+              <h2>Mandate design (DCE attributes)</h2>
+            </div>
+            <div class="card-body">
+              <div class="field">
+                <label for="scope">Scope</label>
+                <select id="scope">
+                  <option value="scope1">High-risk occupations only</option>
+                  <option value="scope2">All occupations &amp; public spaces</option>
+                </select>
+              </div>
+
+              <div class="field">
+                <label for="exemptions">Exemptions</label>
+                <select id="exemptions">
+                  <option value="exemption1">Medical only</option>
+                  <option value="exemption2">Medical + religious</option>
+                  <option value="exemption3">Medical + religious + personal belief</option>
+                </select>
+              </div>
+
+              <div class="field">
+                <label for="coverage">Coverage threshold to lift mandate</label>
+                <select id="coverage">
+                  <option value="coverage1">50% vaccinated</option>
+                  <option value="coverage2">70% vaccinated</option>
+                  <option value="coverage3">90% vaccinated</option>
+                </select>
+              </div>
+
+              <div class="field">
+                <label for="livesPer100k">Expected lives saved</label>
+                <input id="livesPer100k" type="number" min="0" step="1" value="10" />
+                <div class="help">Lives saved per 100,000 people (common reporting levels: 10, 25, 35, 40).</div>
+              </div>
+
+              <div class="actions">
+                <button class="btn primary" id="saveScenarioBtn">Save scenario</button>
+                <button class="btn" id="resetBtn" type="button">Reset</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <h2>Saved scenarios</h2>
+          </div>
+          <div class="card-body">
+            <div class="table-wrap">
+              <table class="table" id="scenariosTable" aria-label="Saved scenarios table">
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Country</th>
+                    <th>Frame</th>
+                    <th>Scope</th>
+                    <th>Exemptions</th>
+                    <th>Lift threshold</th>
+                    <th>Lives/100k</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody id="scenariosTbody"></tbody>
+              </table>
+            </div>
+            <div class="help">Tip: Create several scenarios (e.g., narrow vs broad scope; strict vs permissive exemptions) and compare in the Results tab.
+              <div class="callout">
+                <div class="callout-title">Government-grade build steps (operational)</div>
+                <p class="callout-text">
+                  Add (i) an evidence registry per parameter (source, year, currency, evidence vs proxy), (ii) country parameter packs that load in one click,
+                  (iii) two export views: executive brief (1–2 pages) and technical annex, (iv) uncertainty reporting (tornado + scenario ranges),
+                  and (v) a preference-to-feasibility bridge by reporting predicted support using the built-in MXL/LC estimates.
+                </p>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- Costs -->
+      <article id="tab-costs" class="tab-panel" data-tabpanel="costs">
+        <div class="panel-header">
+          <h1>Costs</h1>
+          <p class="muted">
+            Enter cost inputs that match the mandate design and local implementation approach.
+            Defaults are intentionally conservative or blank; where your costing document reports an evidence-based anchor, it is labelled.
+          </p>
+        </div>
+
+        <div class="grid two">
+          <div class="card">
+            <div class="card-header">
+              <h2>Currency and scaling</h2>
+            </div>
+            <div class="card-body">
+              <div class="field">
+                <label for="currency">Currency (display)</label>
+                <select id="currency">
+                  <option value="AUD">AUD</option>
+                  <option value="EUR">EUR</option>
+                </select>
+                <div class="help">No automatic FX conversion. Keep all cost inputs in the same currency.</div>
+              </div>
+
+              <div class="field">
+                <label for="discountRate">Discount rate (annual)</label>
+                <div class="input-row">
+                  <input id="discountRate" type="number" min="0" step="0.1" value="0" />
+                  <span class="unit">%</span>
+                </div>
+                <div class="help">Optional. Set to 0% if you are using a short horizon.</div>
+              </div>
+
+              <div class="field">
+                <label for="includeTestingAlt">Alternative compliance via testing?</label>
+                <select id="includeTestingAlt">
+                  <option value="yes">Yes (tests used as alternative)</option>
+                  <option value="no">No (minimal testing alternative)</option>
+                </select>
+              </div>
+
+              <div class="field">
+                <label for="unvaccinatedTestingShare">Share regularly testing (if testing alternative)</label>
+                <div class="input-row">
+                  <input id="unvaccinatedTestingShare" type="number" min="0" max="100" step="0.1" value="0" />
+                  <span class="unit">%</span>
+                </div>
+                <div class="help">Share of covered population that remains unvaccinated and relies on testing to comply.</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-header">
+              <h2>Cost inventory</h2>
+            </div>
+            <div class="card-body">
+              <div class="help">
+                Use “0” if not applicable. Each line is intended to map to the categories in your costing framework (IT systems, enforcement, employer compliance, testing, etc.).
+              </div>
+              <div id="costLines"></div>
+
+              <div class="actions">
+                <button class="btn primary" id="applyCostsBtn">Apply costs</button>
+                <button class="btn" id="resetCostsBtn" type="button">Reset costs</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <h2>Cost notes for transparency</h2>
+          </div>
+          <div class="card-body">
+            <ul class="bullets">
+              <li>Fine <em>amounts</em> are transfers and should not be treated as a social cost; only the processing/administration burden belongs on the cost side.</li>
+              <li>Testing costs should reflect the <em>resource cost</em> of testing, not who pays, when you use a societal perspective.</li>
+              <li>Employer compliance time can be valued as staff time (minutes per employee per day) multiplied by wage rates.</li>
+            </ul>
+          </div>
+        </div>
+      </article>
+
+      <!-- Benefits -->
+      <article id="tab-benefits" class="tab-panel" data-tabpanel="benefits">
+        <div class="panel-header">
+          <h1>Benefits</h1>
+          <p class="muted">
+            The DCE includes “lives saved per 100,000” as the health gain metric. This tool converts that into total lives saved and lets you value benefits using
+            standard approaches (VSL, VSLY, or monetised QALYs), depending on the decision context.
+          </p>
+        </div>
+
+        <div class="grid two">
+          <div class="card">
+            <div class="card-header">
+              <h2>Health benefits</h2>
+            </div>
+            <div class="card-body">
+              <div class="field">
+                <label for="valuationMethod">Benefit valuation method</label>
+                <select id="valuationMethod">
+                  <option value="VSL">Value of Statistical Life (VSL)</option>
+                  <option value="VSLY">Value of Statistical Life Year (VSLY)</option>
+                  <option value="QALY">Monetised QALYs</option>
+                  <option value="NONE">Do not monetise (report physical outcomes only)</option>
+                </select>
+              </div>
+
+              <div class="field" data-show-when="valuationMethod:VSL">
+                <label for="vsl">VSL</label>
+                <div class="input-row">
+                  <input id="vsl" type="number" min="0" step="1000" placeholder="e.g., 5,900,000" />
+                  <span class="unit" id="vslUnit">per statistical life</span>
+                </div>
+              </div>
+
+              <div class="field" data-show-when="valuationMethod:VSLY">
+                <label for="vsly">VSLY</label>
+                <div class="input-row">
+                  <input id="vsly" type="number" min="0" step="1000" placeholder="e.g., 253,000" />
+                  <span class="unit">per life-year</span>
+                </div>
+                <div class="field">
+                  <label for="lifeYearsPerDeath">Average life-years per death averted</label>
+                  <div class="input-row">
+                    <input id="lifeYearsPerDeath" type="number" min="0" step="0.1" placeholder="e.g., 8.0" />
+                    <span class="unit">years</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="field" data-show-when="valuationMethod:QALY">
+                <label for="willingnessToPayQaly">Monetary value per QALY</label>
+                <div class="input-row">
+                  <input id="willingnessToPayQaly" type="number" min="0" step="100" placeholder="e.g., 50,000" />
+                  <span class="unit">per QALY</span>
+                </div>
+                <div class="field">
+                  <label for="qalysPerDeath">QALYs per death averted (average)</label>
+                  <div class="input-row">
+                    <input id="qalysPerDeath" type="number" min="0" step="0.1" placeholder="e.g., 6.0" />
+                    <span class="unit">QALYs</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="divider"></div>
+
+              <div class="field">
+                <label for="includeMorbidity">Include morbidity benefits (optional)</label>
+                <select id="includeMorbidity">
+                  <option value="no">No</option>
+                  <option value="yes">Yes (hospitalisations, ICU, long COVID, productivity)</option>
+                </select>
+              </div>
+
+              <div id="morbidityBlock" class="morbidity-block is-hidden">
+                <div class="field">
+                  <label for="hospAverted">Hospitalisations averted</label>
+                  <input id="hospAverted" type="number" min="0" step="1" value="0" />
+                </div>
+                <div class="field">
+                  <label for="icuAverted">ICU admissions averted</label>
+                  <input id="icuAverted" type="number" min="0" step="1" value="0" />
+                </div>
+                <div class="field">
+                  <label for="longCovidAverted">Long COVID cases averted</label>
+                  <input id="longCovidAverted" type="number" min="0" step="1" value="0" />
+                </div>
+                <div class="field">
+                  <label for="costPerHosp">Unit cost per hospitalisation</label>
+                  <input id="costPerHosp" type="number" min="0" step="100" value="0" />
+                </div>
+                <div class="field">
+                  <label for="costPerICU">Unit cost per ICU admission</label>
+                  <input id="costPerICU" type="number" min="0" step="100" value="0" />
+                </div>
+                <div class="field">
+                  <label for="costPerLongCovid">Unit cost per long COVID case (healthcare + productivity)</label>
+                  <input id="costPerLongCovid" type="number" min="0" step="100" value="0" />
+                </div>
+              </div>
+
+              <div class="actions">
+                <button class="btn primary" id="applyBenefitsBtn">Apply benefits</button>
+                <button class="btn" id="resetBenefitsBtn" type="button">Reset benefits</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-header">
+              <h2>Public support (from DCE)</h2>
+            </div>
+            <div class="card-body">
+              <p class="muted">
+                The tool can compute predicted support using your built-in estimates (MXL or latent class), or via uploaded coefficients / pre-computed bundle tables.
+                Coefficients are not bundled here to avoid inserting any numbers not present in your files.
+              </p>
+
+              <div class="field">
+                <label for="prefModelMode">Preference input mode</label>
+                <select id="prefModelMode">
+                  <option value="builtin_mxl">Use built-in MXL (your estimates)</option>
+                  <option value="builtin_lc">Use built-in latent class (your estimates)</option>
+                  <option value="coeff">Upload/paste coefficient JSON</option>
+                  <option value="bundle">Upload predicted support table (policy bundles)</option>
+                  <option value="none">No preference model (skip)</option>
+                </select>
+              </div>
+
+              <div class="field" id="prefUploadField">
+                <label for="prefFile">Upload JSON</label>
+                <input id="prefFile" type="file" accept=".json,application/json" />
+                <div class="help">Supported formats described in Evidence tab → “Data formats”.</div>
+              </div>
+
+              <div class="field">
+                <label for="prefStatus">Status</label>
+                <div id="prefStatus" class="status">No preference model loaded.</div>
+              </div>
+
+              <div class="divider"></div>
+
+              <div class="field">
+                <label for="policyAcceptabilityWeight">Optional: weight results by predicted support</label>
+                <select id="policyAcceptabilityWeight">
+                  <option value="no">No (report support separately)</option>
+                  <option value="yes">Yes (compute “expected net benefit” × support probability)</option>
+                </select>
+                <div class="help">This is an optional reporting feature; it does not claim support is the same as compliance.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- Results -->
+      <article id="tab-results" class="tab-panel" data-tabpanel="results">
+        <div class="panel-header">
+          <h1>Results</h1>
+          <p class="muted">Compare saved scenarios. Costs and benefits are shown transparently with all assumptions.</p>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <h2>Scenario comparison</h2>
+          </div>
+          <div class="card-body">
+            <div class="table-wrap">
+              <table class="table" id="resultsTable" aria-label="Results comparison table">
+                <thead>
+                  <tr>
+                    <th>Scenario</th>
+                    <th>Total lives saved</th>
+                    <th>Total benefits</th>
+                    <th>Total costs</th>
+                    <th>Net benefit</th>
+                    <th>BCR</th>
+                    <th>Predicted support</th>
+                    <th>Support-weighted net benefit</th>
+                  </tr>
+                </thead>
+                <tbody id="resultsTbody"></tbody>
+              </table>
+            </div>
+            <div class="help">BCR = total benefits ÷ total costs. If benefits are not monetised, BCR and net benefit are not reported.</div>
+          </div>
+        </div>
+
+        <div class="grid two">
+          <div class="card">
+            <div class="card-header">
+              <h2>Selected scenario breakdown</h2>
+            </div>
+            <div class="card-body">
+              <div class="field">
+                <label for="selectedScenario">Select scenario</label>
+                <select id="selectedScenario"></select>
+              </div>
+
+              <div class="divider"></div>
+
+              <div class="kpis" id="kpiBlock"></div>
+
+              <div class="divider"></div>
+
+              <h3>Cost breakdown</h3>
+              <div class="table-wrap">
+                <table class="table compact" id="costBreakdownTable">
+                  <thead>
+                    <tr><th>Cost line</th><th class="right">Value</th></tr>
+                  </thead>
+                  <tbody id="costBreakdownTbody"></tbody>
+                </table>
+              </div>
+
+              <h3>Benefit breakdown</h3>
+              <div class="table-wrap">
+                <table class="table compact" id="benefitBreakdownTable">
+                  <thead>
+                    <tr><th>Benefit line</th><th class="right">Value</th></tr>
+                  </thead>
+                  <tbody id="benefitBreakdownTbody"></tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-header">
+              <h2>Sensitivity (one-way)</h2>
+            </div>
+            <div class="card-body">
+              <p class="muted">
+                Quick one-way sensitivity on a small set of high-leverage inputs. This is designed for policy meetings; for full PSA, export JSON and analyse externally.
+              </p>
+
+              <div class="field">
+                <label for="sensParam">Parameter</label>
+                <select id="sensParam">
+                  <option value="livesPer100k">Lives saved per 100,000</option>
+                  <option value="vsl">VSL</option>
+                  <option value="totalCosts">Total costs (multiplier)</option>
+                </select>
+              </div>
+
+              <div class="field">
+                <label for="sensLow">Low</label>
+                <input id="sensLow" type="number" min="0" step="1" value="10" />
+              </div>
+              <div class="field">
+                <label for="sensHigh">High</label>
+                <input id="sensHigh" type="number" min="0" step="1" value="40" />
+              </div>
+
+              <div class="actions">
+                <button class="btn primary" id="runSensitivityBtn">Run sensitivity</button>
+              </div>
+
+              <div class="divider"></div>
+              <div id="sensOutput" class="sens-output"></div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- Evidence -->
+      <article id="tab-evidence" class="tab-panel" data-tabpanel="evidence">
+        <div class="panel-header">
+          <h1>Evidence and data formats</h1>
+          <p class="muted">This tab documents the model structure, what comes from your files, and what must be supplied locally for policy use.</p>
+        </div>
+
+        <div class="grid two">
+          <div class="card">
+            <div class="card-header">
+              <h2>Mandate attributes (from your DCE)</h2>
+            </div>
+            <div class="card-body">
+              <ul class="bullets">
+                <li><strong>Scope</strong>: high-risk occupations only vs all occupations and public spaces.</li>
+                <li><strong>Exemptions</strong>: medical only; medical + religious; medical + religious + personal belief.</li>
+                <li><strong>Coverage threshold</strong>: lift mandate at 50%, 70%, or 90% vaccinated.</li>
+                <li><strong>Health gain</strong>: lives saved per 100,000 people.</li>
+              </ul>
+              <div class="callout">
+                <div class="callout-title">Lives-saved equivalents (MRS)</div>
+                <p class="callout-text">
+                  Your analysis uses marginal rates of substitution (MRS) to express how much “lives saved per 100,000” would produce the same utility change as
+                  changing one mandate feature. This tool can store and display those MRS values if you upload them in a coefficient JSON.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-header">
+              <h2>Cost inventory (from your costing framework)</h2>
+            </div>
+            <div class="card-body">
+              <ul class="bullets">
+                <li>Government programme implementation: policy/legislation, IT and digital infrastructure, staffing/administration, communications, monitoring.</li>
+                <li>Enforcement and compliance: inspections/checks, penalty processing, fraud prevention.</li>
+                <li>Employer compliance: HR verification and record-keeping, process changes, staffing.</li>
+                <li>Testing as alternative compliance: test kit + processing resources, and testing logistics/time.</li>
+              </ul>
+              <div class="help">Your costing document also flags where some country figures are evidence-based anchors and where proxies were used.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <h2>Data formats</h2>
+          </div>
+          <div class="card-body">
+            <h3>1) Coefficient JSON (mode: “coeff”). Built-in estimates are already included (modes: “builtin_mxl”, “builtin_lc”).</h3>
+            <pre class="code" aria-label="Coefficient JSON example">
+{
+  "meta": { "source": "Your model output", "note": "one model per country and frame" },
+  "models": {
+    "AUS": { "mild": { "beta": { "ASC_policy": 0.0, "ASC_optout": 0.0, "scope2": 0.0, "exemption2": 0.0, "exemption3": 0.0, "coverage2": 0.0, "coverage3": 0.0, "lives": 0.0 } } },
+    "FRA": { "mild": { "beta": { "...": 0.0 } } },
+    "ITA": { "mild": { "beta": { "...": 0.0 } } }
+  }
+}</pre>
+            <p class="muted">
+              Notes: (i) Use effect coding or dummy coding consistently with your estimation; (ii) lives should be the marginal utility per +1 life saved per 100,000.
+              If you estimate separate models for mild/severe frames, include both keys.
+            </p>
+
+            <h3>2) Predicted support table (mode: “bundle”)</h3>
+            <pre class="code" aria-label="Bundle support JSON example">
+{
+  "meta": { "source": "Predicted support table", "unit": "probability" },
+  "support": [
+    { "country": "AUS", "frame": "mild", "scope": "scope1", "exemptions": "exemption1", "coverage": "coverage2", "livesPer100k": 25, "pSupport": 0.0 }
+  ]
+}</pre>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <h2>Implementation quality checklist</h2>
+          </div>
+          <div class="card-body">
+            <div class="grid two">
+              <ul class="bullets">
+                <li>Publish the parameter set and version it (date, country, data source).</li>
+                <li>Document which costs are incremental vs reallocated staff time.</li>
+                <li>Separate “budget impact” (who pays) from “societal cost” (resource use).</li>
+                <li>Provide default VSL/VSLY values from official guidance for each country where available.</li>
+              </ul>
+              <ul class="bullets">
+                <li>Include distributional reporting (who bears costs; who benefits) where possible.</li>
+                <li>Add an audit log: every changed assumption is logged in the export.</li>
+                <li>Validate against at least one retrospective case study (e.g., 2021–22 pass systems) before deployment.</li>
+                <li>Ensure accessibility (WCAG), offline use, and clear printing/export for meetings.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- Export -->
+      <article id="tab-export" class="tab-panel" data-tabpanel="export">
+        <div class="panel-header">
+          <h1>Export</h1>
+          <p class="muted">Export assumptions and results for review, archiving, or external analysis.</p>
+        </div>
+
+        <div class="grid two">
+          <div class="card">
+            <div class="card-header">
+              <h2>Export scenario package</h2>
+            </div>
+            <div class="card-body">
+              <div class="actions">
+                <button class="btn primary" id="exportJsonBtn">Download JSON</button>
+                <button class="btn" id="exportCsvBtn">Download CSV (results)</button>
+                <button class="btn" id="printBtn">Print view</button>
+              </div>
+              <div class="help">Exports include all inputs, saved scenarios, and the cost/benefit assumptions currently applied.</div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-header">
+              <h2>Reset</h2>
+            </div>
+            <div class="card-body">
+              <p class="muted">Clears saved scenarios and all inputs stored in your browser.</p>
+              <div class="actions">
+                <button class="btn danger" id="clearAllBtn">Clear all data</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <h2>References (for modelling and valuation)</h2>
+          </div>
+          <div class="card-body">
+            <ol class="refs" id="refsList"></ol>
+          </div>
+        </div>
+      </article>
+    </section>
+  </main>
+
+  <footer class="who-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <div class="footer-title">About</div>
+          <p class="muted">
+            Designed for transparent policy comparison of vaccine mandate configurations using DCE-derived preference structure and a structured cost inventory.
+          </p>
+        </div>
+        <div>
+          <div class="footer-title">Data</div>
+          <p class="muted">All calculations run locally in your browser. No data is sent to a server by default.</p>
+        </div>
+        <div>
+          <div class="footer-title">Version</div>
+          <p class="muted" id="buildStamp"></p>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
